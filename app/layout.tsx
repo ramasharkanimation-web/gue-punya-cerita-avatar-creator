@@ -9,7 +9,7 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "GPC Avatar Maker",
+  title: "Gue Punya Cerita Avatar Creator",
   description: "Bikin profile pic karaktermu — base body, hair, dan clothes."
 };
 

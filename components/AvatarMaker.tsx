@@ -86,6 +86,14 @@ export default function AvatarMaker() {
         if (img) ctx.drawImage(img, 0, 0, size, size);
       }
 
+      // Watermark: GPC logo, top-right corner.
+      const watermark = await loadImage("/watermark-gpc.png");
+      if (watermark) {
+        const wmSize = Math.round(size * 0.16);
+        const margin = Math.round(size * 0.035);
+        ctx.drawImage(watermark, size - wmSize - margin, margin, wmSize, wmSize);
+      }
+
       canvas.toBlob((blob) => {
         if (!blob) return;
         const link = document.createElement("a");
@@ -161,10 +169,6 @@ export default function AvatarMaker() {
               selectedId={hairId}
               onSelect={setHairId}
             />
-            <p className="text-[11px] text-[#5a5670] mt-3">
-              Belum ada file? Upload PNG ke <code>/public/assets/hair/</code> sesuai nama
-              file di <code>lib/assets.ts</code>, nanti otomatis muncul di sini.
-            </p>
           </div>
         )}
 
@@ -179,10 +183,6 @@ export default function AvatarMaker() {
               selectedId={clothesId}
               onSelect={setClothesId}
             />
-            <p className="text-[11px] text-[#5a5670] mt-3">
-              Belum ada file? Upload PNG ke <code>/public/assets/clothes/</code> sesuai
-              nama file di <code>lib/assets.ts</code>, nanti otomatis muncul di sini.
-            </p>
           </div>
         )}
       </section>
@@ -223,6 +223,11 @@ export default function AvatarMaker() {
                 onError={(e) => (e.currentTarget.style.display = "none")}
               />
             )}
+            <img
+              src="/watermark-gpc.png"
+              alt="Gue Punya Cerita"
+              className="absolute top-[3.5%] right-[3.5%] w-[16%] aspect-square rounded-md"
+            />
             {/* eslint-enable @next/next/no-img-element */}
           </div>
         </div>
