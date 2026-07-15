@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import {
   ASSET_CANVAS_SIZE,
+  BACKGROUND_ASSETS,
   BODY_ASSETS,
   HAIR_ASSETS,
   CLOTHES_ASSETS,
@@ -10,7 +11,7 @@ import {
 } from "@/lib/assets";
 import AssetGrid from "./AssetGrid";
 
-type Tab = "body" | "hair" | "clothes";
+type Tab = "background" | "body" | "hair" | "clothes";
 
 function randomOf<T>(arr: T[]): T {
   return arr[Math.floor(Math.random() * arr.length)];
@@ -34,12 +35,17 @@ function loadImage(src: string): Promise<HTMLImageElement | null> {
 }
 
 export default function AvatarMaker() {
-  const [tab, setTab] = useState<Tab>("body");
+  const [tab, setTab] = useState<Tab>("background");
+  const [backgroundId, setBackgroundId] = useState(BACKGROUND_ASSETS[1]?.id ?? BACKGROUND_ASSETS[0].id);
   const [bodyId, setBodyId] = useState(BODY_ASSETS[0].id);
   const [hairId, setHairId] = useState(HAIR_ASSETS[0].id);
   const [clothesId, setClothesId] = useState(CLOTHES_ASSETS[0].id);
   const [downloading, setDownloading] = useState(false);
 
+  const background = useMemo(
+    () => BACKGROUND_ASSETS.find((a) => a.id === backgroundId)!,
+    [backgroundId]
+  );
   const body = useMemo(() => BODY_ASSETS.find((a) => a.id === bodyId)!, [bodyId]);
   const hair = useMemo(() => HAIR_ASSETS.find((a) => a.id === hairId)!, [hairId]);
   const clothes = useMemo(
@@ -48,6 +54,7 @@ export default function AvatarMaker() {
   );
 
   function randomize() {
+    setBackgroundId(randomOf(BACKGROUND_ASSETS).id);
     setBodyId(randomOf(BODY_ASSETS).id);
     setHairId(randomOf(HAIR_ASSETS).id);
     setClothesId(randomOf(CLOTHES_ASSETS).id);
@@ -63,8 +70,12 @@ export default function AvatarMaker() {
       const ctx = canvas.getContext("2d");
       if (!ctx) return;
 
-      // Stacking order bottom -> top: body, clothes, hair.
+      // Stacking order bottom -> top: background, body, clothes, hair.
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, size, size);
+
       const layers = [
+        publicPath("background", background.file),
         publicPath("body", body.file),
         publicPath("clothes", clothes.file),
         publicPath("hair", hair.file)
@@ -92,7 +103,7 @@ export default function AvatarMaker() {
       {/* Controls */}
       <section className="bg-panel border-[3px] border-ink rounded-comic shadow-comic p-5">
         <div className="flex gap-2 flex-wrap mb-4">
-          {(["body", "hair", "clothes"] as Tab[]).map((t) => (
+          {(["background", "body", "hair", "clothes"] as Tab[]).map((t) => (
             <button
               key={t}
               onClick={() => setTab(t)}
@@ -100,10 +111,30 @@ export default function AvatarMaker() {
                 tab === t ? "bg-coral text-white" : "bg-paper"
               }`}
             >
-              {t === "body" ? "Body" : t === "hair" ? "Hair" : "Clothes"}
+              {t === "background"
+                ? "Background"
+                : t === "body"
+                ? "Body"
+                : t === "hair"
+                ? "Hair"
+                : "Clothes"}
             </button>
           ))}
         </div>
+
+        {tab === "background" && (
+          <div>
+            <div className="font-display font-semibold text-[13px] uppercase tracking-wider text-[#5a5670] mb-2">
+              Pilih background
+            </div>
+            <AssetGrid
+              category="background"
+              items={BACKGROUND_ASSETS}
+              selectedId={backgroundId}
+              onSelect={setBackgroundId}
+            />
+          </div>
+        )}
 
         {tab === "body" && (
           <div>
@@ -158,9 +189,17 @@ export default function AvatarMaker() {
 
       {/* Preview */}
       <section className="flex flex-col items-center gap-4 md:sticky md:top-5">
-        <div className="relative w-full max-w-[320px] aspect-square rounded-[20px] border-[3px] border-ink shadow-comic p-3.5 bg-gradient-to-br from-teal to-grape overflow-hidden avatar-frame-dots">
+        <div className="relative w-full max-w-[320px] aspect-square rounded-[20px] border-[3px] border-ink shadow-comic p-3.5 bg-paper overflow-hidden avatar-frame-dots">
           <div className="relative w-full h-full drop-shadow-[0_6px_0_rgba(0,0,0,0.15)]">
             {/* eslint-disable @next/next/no-img-element */}
+            {background.file && (
+              <img
+                src={publicPath("background", background.file)}
+                alt="Background"
+                className="absolute inset-0 w-full h-full object-cover"
+                onError={(e) => (e.currentTarget.style.display = "none")}
+              />
+            )}
             {body.file && (
               <img
                 src={publicPath("body", body.file)}

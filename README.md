@@ -30,9 +30,10 @@ components/
 lib/
   assets.ts             Single source of truth: every body/hair/clothes option
 public/assets/
+  background/            8 background PNGs (already included)
   body/                  10 base body PNGs (already included)
-  hair/                  Empty — add your own PNGs (see README.md inside)
-  clothes/               Empty — add your own PNGs (see README.md inside)
+  hair/                  15 hair PNGs (already included)
+  clothes/               19 clothes PNGs (already included)
 ```
 
 ## Adding hair & clothes assets

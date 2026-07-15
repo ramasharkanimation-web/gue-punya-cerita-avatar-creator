@@ -18,7 +18,7 @@ const config: Config = {
         grape: "#6C5CE7"
       },
       fontFamily: {
-        display: ["var(--font-fredoka)", "sans-serif"],
+        display: ["'Big Bimbo'", "sans-serif"],
         body: ["var(--font-space-grotesk)", "sans-serif"]
       },
       boxShadow: {

@@ -5,10 +5,11 @@ import { useEffect, useRef, useState } from "react";
 const TITLE_KEY = "gpc-avatar-maker:site-title";
 const LOGO_KEY = "gpc-avatar-maker:logo-data-url";
 const DEFAULT_TITLE = "GPC Avatar Maker";
+const DEFAULT_LOGO = "/logo-default.png";
 
 export default function Header() {
   const [title, setTitle] = useState(DEFAULT_TITLE);
-  const [logo, setLogo] = useState<string | null>(null);
+  const [logo, setLogo] = useState<string | null>(DEFAULT_LOGO);
   const [hydrated, setHydrated] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);

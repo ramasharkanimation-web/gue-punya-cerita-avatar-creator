@@ -1,27 +1,33 @@
 # Hair assets
 
-Drop transparent PNGs here matching the filenames listed in `lib/assets.ts`
-under `HAIR_ASSETS`, currently:
+16 options currently live here, matching `HAIR_ASSETS` in `lib/assets.ts`:
 
 ```
-hair_001.png   Pendek
-hair_002.png   Panjang
-hair_003.png   Kuncir
-hair_004.png   Keriting
-hair_005.png   Poni
-hair_006.png   Undercut
+(none)            Botak  (empty file = renders no hair layer at all)
+hair_001.png      Shag Berantakan
+hair_002.png      Afro
+hair_003.png      Hijab Maroon
+hair_004.png      Hijab Khaki Bintang
+hair_005.png      Hijab Mustard
+hair_006.png      Wavy Panjang Ponytail
+hair_007.png      Lurus Panjang Jepit
+hair_008.png      Bob Oranye Bunga
+hair_009.png      Twintail Pink Pita
+hair_010.png      Kuncir Dua Kuning
+hair_011.png      Kepang Dua Bando Biru
+hair_012.png      Sanggul Berantakan
+hair_013.png      Spiky Berantakan
+hair_014.png      Poni Samping Panjang
+hair_015.png      Cokelat Jambul Tebal
 ```
 
-Rules:
+Rules for adding more:
 - Transparent background PNG
 - **2000x2000** canvas (same as the body assets in `/public/assets/body/`)
-  so every layer lines up without extra positioning code
-- Character/hair positioned the same way as the body layer — compare
-  against `body_001.png` while drawing to keep alignment consistent
+- Positioned the same way as the body layer so the hairline lines up
 
-Want different names or more styles? Just edit the `HAIR_ASSETS` array in
-`lib/assets.ts` — the id, the label shown in the UI, and the filename are
-all defined there. The picker grid updates automatically.
+Stacking order is body -> clothes -> hair (hair renders on top, see
+`AvatarMaker.tsx`), so long styles drape naturally over the collar.
 
-Until a file exists, its slot in the UI shows a dashed "belum ada"
-placeholder and is silently skipped when exporting — nothing breaks.
+Add more styles or rename any of these anytime by editing `HAIR_ASSETS`
+in `lib/assets.ts` — the picker grid updates automatically.

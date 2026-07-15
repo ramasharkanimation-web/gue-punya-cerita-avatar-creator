@@ -1,12 +1,6 @@
 import type { Metadata } from "next";
-import { Fredoka, Space_Grotesk } from "next/font/google";
+import { Space_Grotesk } from "next/font/google";
 import "./globals.css";
-
-const fredoka = Fredoka({
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
-  variable: "--font-fredoka"
-});
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -27,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="id">
       <body
-        className={`${fredoka.variable} ${spaceGrotesk.variable} font-body text-ink halftone-bg min-h-screen`}
+        className={`${spaceGrotesk.variable} font-body text-ink halftone-bg min-h-screen`}
       >
         {children}
       </body>
