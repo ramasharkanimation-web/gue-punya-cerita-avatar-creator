@@ -86,12 +86,16 @@ export default function AvatarMaker() {
         if (img) ctx.drawImage(img, 0, 0, size, size);
       }
 
-      // Watermark: GPC logo, top-right corner.
+      // Watermark: GPC wordmark logo, small and centered above the head.
       const watermark = await loadImage("/watermark-gpc.png");
       if (watermark) {
-        const wmSize = Math.round(size * 0.16);
-        const margin = Math.round(size * 0.035);
-        ctx.drawImage(watermark, size - wmSize - margin, margin, wmSize, wmSize);
+        const wmWidth = Math.round(size * 0.22);
+        const wmHeight = Math.round(
+          wmWidth * (watermark.naturalHeight / watermark.naturalWidth)
+        );
+        const topMargin = Math.round(size * 0.045);
+        const xPos = Math.round((size - wmWidth) / 2);
+        ctx.drawImage(watermark, xPos, topMargin, wmWidth, wmHeight);
       }
 
       canvas.toBlob((blob) => {
@@ -109,7 +113,7 @@ export default function AvatarMaker() {
   return (
     <main className="grid grid-cols-1 md:grid-cols-[1.1fr_1fr] gap-6 px-7 py-7 max-w-[1180px] mx-auto items-start">
       {/* Controls */}
-      <section className="bg-panel border-[3px] border-ink rounded-comic shadow-comic p-5">
+      <section className="order-2 md:order-none bg-panel border-[3px] border-ink rounded-comic shadow-comic p-5">
         <div className="flex gap-2 flex-wrap mb-4">
           {(["background", "body", "hair", "clothes"] as Tab[]).map((t) => (
             <button
@@ -188,7 +192,7 @@ export default function AvatarMaker() {
       </section>
 
       {/* Preview */}
-      <section className="flex flex-col items-center gap-4 md:sticky md:top-5">
+      <section className="order-1 md:order-none flex flex-col items-center gap-4 md:sticky md:top-5">
         <div className="relative w-full max-w-[320px] aspect-square rounded-[20px] border-[3px] border-ink shadow-comic p-3.5 bg-paper overflow-hidden avatar-frame-dots">
           <div className="relative w-full h-full drop-shadow-[0_6px_0_rgba(0,0,0,0.15)]">
             {/* eslint-disable @next/next/no-img-element */}
@@ -226,7 +230,7 @@ export default function AvatarMaker() {
             <img
               src="/watermark-gpc.png"
               alt="Gue Punya Cerita"
-              className="absolute top-[3.5%] right-[3.5%] w-[16%] aspect-square rounded-md"
+              className="absolute top-[4.5%] left-1/2 -translate-x-1/2 w-[22%] h-auto"
             />
             {/* eslint-enable @next/next/no-img-element */}
           </div>
